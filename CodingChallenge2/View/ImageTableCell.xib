@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ImageTableCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="100" id="eLM-hd-qmT" customClass="ImageTableCell" customModule="CodingChallenge2" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="eLM-hd-qmT" id="qaB-hP-XH6">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="W5n-tu-lg2">
+                        <rect key="frame" x="7" y="7" width="87" height="87"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="87" id="H8p-PO-KVn"/>
+                            <constraint firstAttribute="height" constant="87" id="d3g-ds-9f8"/>
+                            <constraint firstAttribute="width" secondItem="W5n-tu-lg2" secondAttribute="height" multiplier="1:1" id="dvk-7h-7Qx"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jJe-FQ-k6z">
+                        <rect key="frame" x="102" y="7" width="301" height="51"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Album: name Track: 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zse-o3-Hor">
+                        <rect key="frame" x="102" y="55" width="301" height="39"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="W5n-tu-lg2" firstAttribute="leading" secondItem="qaB-hP-XH6" secondAttribute="leading" constant="7" id="CnO-ar-HIu"/>
+                    <constraint firstItem="W5n-tu-lg2" firstAttribute="top" secondItem="qaB-hP-XH6" secondAttribute="top" constant="7" id="Kiy-vS-tLB"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="albumIdLabel" destination="zse-o3-Hor" id="WWi-Y4-uDw"/>
+                <outlet property="image" destination="W5n-tu-lg2" id="ae0-ja-1S8"/>
+                <outlet property="titleLabel" destination="jJe-FQ-k6z" id="M3I-gg-YXF"/>
+            </connections>
+            <point key="canvasLocation" x="-152.17391304347828" y="-72.321428571428569"/>
+        </tableViewCell>
+    </objects>
+</document>

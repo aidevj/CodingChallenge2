@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  GridViewController.swift
 //  CodingChallenge2
 //
 //  Created by Consultant on 12/14/19.
@@ -8,11 +8,10 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CollectionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
 
 
