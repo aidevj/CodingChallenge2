@@ -39,13 +39,13 @@ final class SongManager {
                 // loop through dictionaries and init
                 for dict in songsDict {
                     guard let title = dict["title"] as? String,
-                        let imageURL = dict["url"] as? String,
-                        let thumbnailUrl = dict["thumbnailURL"] as? String,
+                        let imageUrl = dict["url"] as? String,
+                        let thumbnailUrl = dict["thumbnailUrl"] as? String,
                         let albumId = dict["albumId"] as? Int,
                         let id = dict["id"] as? Int else { continue }
                     
                     // init song
-                    let song = Song(title: title, imageUrl: imageURL, thumbnailUrl: thumbnailUrl, albumId: albumId, id: id)
+                    let song = Song(title: title, imageUrl: imageUrl, thumbnailUrl: thumbnailUrl, albumId: albumId, id: id)
                     
                     // append to array of songs
                     songs.append(song)
