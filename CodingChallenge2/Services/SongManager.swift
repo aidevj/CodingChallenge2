@@ -9,6 +9,7 @@
 //  It should be a Singleton.
 
 import Foundation
+import UIKit
 
 typealias SongHandler = ([Song]) -> Void
 
@@ -44,8 +45,22 @@ final class SongManager {
                         let albumId = dict["albumId"] as? Int,
                         let id = dict["id"] as? Int else { continue }
                     
+                    //TODO: Convert URLs into UIImage
+                    // maybe do this in extension of Song init??
+                    let thumbnailConvert = URL(string: thumbnailUrl)
+                    var thumbnailImage: UIImage?
+                    
+                    let task = URLSession.shared.dataTask(with: thumbnailConvert!) { data, response, error in
+                        guard let data = data else { return }
+                        
+                        DispatchQueue.main.async() {
+                            thumbnailImage = UIImage(data: data)
+                        }
+                    }
+                    task.resume()
+                    
                     // init song
-                    let song = Song(title: title, imageUrl: imageUrl, thumbnailUrl: thumbnailUrl, albumId: albumId, id: id)
+                    let song = Song(title: title, imageUrl: imageUrl, thumbnailUrl: thumbnailUrl, albumId: albumId, id: id, thumbnailImage: thumbnailImage)
                     
                     // append to array of songs
                     songs.append(song)

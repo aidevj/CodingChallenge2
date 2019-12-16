@@ -8,6 +8,7 @@
 // Struct to define Songs to be loaded in the table view
 
 import Foundation
+import UIKit
 
 struct Song {
     let title: String
@@ -15,6 +16,8 @@ struct Song {
     let thumbnailUrl: String
     let albumId: Int
     let id: Int
+    let thumbnailImage: UIImage?    // can be nil if cannot find image from url
+    //let image: UIImage
     
 //    init(title: String, imageUrl: String, thumbnailUrl: String, albumId: Int, id: Int) {
 //        self.title = title

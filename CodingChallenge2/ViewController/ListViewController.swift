@@ -49,7 +49,7 @@ class ListViewController: UIViewController {
         listTableView.register(UINib(nibName: ImageTableCell.identifier, bundle: Bundle.main), forCellReuseIdentifier: ImageTableCell.identifier)
         
         // remove unused table cells
-        listTableView.tableFooterView = UIView(frame: .zero)
+        //listTableView.tableFooterView = UIView(frame: .zero)
     }
     
 }
@@ -72,13 +72,26 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         cell.titleLabel.text = "\(song.title)"
         cell.albumIdLabel.text = "Album: \(song.albumId) | Track: \(song.id)"
         
-        // TODO: change image to thumbnail from url
+        // Change image to thumbnail from url
+        if song.thumbnailImage != nil { // default image if nil image loaded
+            cell.thumbnail.image = song.thumbnailImage
+        }
+        
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
+    }
+    
+    // Control Touch Events on table view cells
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Deselect after tap
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        //TODO: Present image view controller of corresponding song image
+        
     }
     
 }
