@@ -9,22 +9,32 @@
 
 import UIKit
 
+// Delegate for ListVC
+protocol ListDelegate: class {
+    func passInformation(image: UIImage)
+}
+
 class ListViewController: UIViewController {
 
     @IBOutlet weak var listTableView: UITableView!
-    
+
     //MARK: Properties
     
+    // For passing information to Image View Controller
+    weak var delegate: ListDelegate?
+    var imageVC: ImageViewController!
+    
+    // Hold array of songs
     var songs = [Song]() {
         didSet {
-            //orderedSongs = order(songs)   // set ordered cities
+            //orderedSongs = order(songs)   //TODO: set ordered cities
             DispatchQueue.main.async {
                 self.listTableView.reloadData()
             }
         }
     }
     
-    var filteredSongs = [Song]()
+    var filteredSongs = [Song]()    //TODO
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +59,7 @@ class ListViewController: UIViewController {
         listTableView.register(UINib(nibName: ImageTableCell.identifier, bundle: Bundle.main), forCellReuseIdentifier: ImageTableCell.identifier)
         
         // remove unused table cells
-        //listTableView.tableFooterView = UIView(frame: .zero)
+        listTableView.tableFooterView = UIView(frame: .zero)
     }
     
 }
@@ -73,25 +83,36 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         cell.albumIdLabel.text = "Album: \(song.albumId) | Track: \(song.id)"
         
         // Change image to thumbnail from url
-        if song.thumbnailImage != nil { // default image if nil image loaded
-            cell.thumbnail.image = song.thumbnailImage
-        }
-        
+        if let thumbnailImage = song.thumbnailImage {
+            cell.thumbnail.image = thumbnailImage
+        } // else will set thumbnailImage to nil?
         
         return cell
     }
     
+    // Control constant height for cell rows
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
     
     // Control Touch Events on table view cells
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let song =  songs[indexPath.row]
+        
         // Deselect after tap
         tableView.deselectRow(at: indexPath, animated: true)
         
-        //TODO: Present image view controller of corresponding song image
+        // Present Image View Controller of corresponding song image
+        imageVC = storyboard?.instantiateViewController(identifier: "ImageViewController") as! ImageViewController // bad but i dont remember why
         
+        // Send information of cell clicked on (full image from URL)
+        if let fullImage = song.image {
+            delegate?.passInformation(image: fullImage)
+        } else {
+            print("Full Image is nil.")
+        }
+        
+        present(imageVC, animated: true, completion: nil)
     }
     
 }

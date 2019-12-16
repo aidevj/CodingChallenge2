@@ -16,14 +16,6 @@ struct Song {
     let thumbnailUrl: String
     let albumId: Int
     let id: Int
-    let thumbnailImage: UIImage?    // can be nil if cannot find image from url
-    //let image: UIImage
-    
-//    init(title: String, imageUrl: String, thumbnailUrl: String, albumId: Int, id: Int) {
-//        self.title = title
-//        self.imageUrl = imageUrl
-//        self.thumbnailUrl = thumbnailUrl
-//        self.albumId = albumId
-//        self.id = id
-//    }
+    let thumbnailImage: UIImage?  // can be nil if cannot find image from url
+    let image: UIImage?           // full sized image, can als obe nil if cannot get image from url
 }

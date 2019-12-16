@@ -45,22 +45,34 @@ final class SongManager {
                         let albumId = dict["albumId"] as? Int,
                         let id = dict["id"] as? Int else { continue }
                     
-                    //TODO: Convert URLs into UIImage
-                    // maybe do this in extension of Song init??
-                    let thumbnailConvert = URL(string: thumbnailUrl)
+                    let thumbnailConvert = URL(string: thumbnailUrl)  // maybe do this in extension of Song init??
                     var thumbnailImage: UIImage?
                     
-                    let task = URLSession.shared.dataTask(with: thumbnailConvert!) { data, response, error in
+                    let imageConvert = URL(string: imageUrl)
+                    var image: UIImage?
+                    
+                    // Get thumbnail image from URL
+                    let thumbTask = URLSession.shared.dataTask(with: thumbnailConvert!) { data, response, error in
                         guard let data = data else { return }
                         
                         DispatchQueue.main.async() {
                             thumbnailImage = UIImage(data: data)
                         }
                     }
-                    task.resume()
+                    thumbTask.resume()  //TODO FIX: only returning nil
+                    
+                    let imageTask = URLSession.shared.dataTask(with: imageConvert!) { data, response, error in
+                        guard let data = data else { return }
+                        
+                        DispatchQueue.main.async() {
+                            image = UIImage(data: data)
+                        }
+                    }
+                    imageTask.resume()  //TODO FIX: only returning nil
+                    
                     
                     // init song
-                    let song = Song(title: title, imageUrl: imageUrl, thumbnailUrl: thumbnailUrl, albumId: albumId, id: id, thumbnailImage: thumbnailImage)
+                    let song = Song(title: title, imageUrl: imageUrl, thumbnailUrl: thumbnailUrl, albumId: albumId, id: id, thumbnailImage: thumbnailImage, image: image)
                     
                     // append to array of songs
                     songs.append(song)
