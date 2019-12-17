@@ -24,8 +24,8 @@ class ListViewController: UIViewController {
     weak var delegate: ListDelegate?
     var imageVC: ImageViewController!
     
-    // Array of ordered songs
-    var orderedSongs: [String: [Song]] = [:] { // Add an observer
+    // Array of ordered songs with observer
+    var orderedSongs: [String: [Song]] = [:] {
         didSet {
             DispatchQueue.main.async{
                 self.listTableView.reloadData()
@@ -36,11 +36,9 @@ class ListViewController: UIViewController {
     // Hold array of songs
     var songs = [Song]() {
         didSet {
-            orderedSongs = order(songs)   // set ordered cities
+            orderedSongs = order(songs)
         }
     }
-    
-    var filteredSongs = [Song]()    //TODO
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,6 +82,14 @@ class ListViewController: UIViewController {
         
         return songsDict
     }
+    
+    // helper function
+    private func getSongs(from section: Int) -> [Song] {    // not being used?
+        // put keys in ascending order
+        let keys = orderedSongs.keys.sorted(by: {$0 < $1})
+        let key = keys[section] // get correct key from section
+        return orderedSongs[key]!
+    }
 
 }
 
@@ -101,6 +107,7 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImageTableCell.identifier, for: indexPath) as! ImageTableCell
         
         // Change infomation for each cell here
+        let songs = getSongs(from: indexPath.section)   // needed in order to order the titles
         let song = songs[indexPath.row]
         cell.titleLabel.text = "\(song.title)"
         cell.albumIdLabel.text = "Album: \(song.albumId) | Track: \(song.id)"
@@ -126,7 +133,7 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         // Present Image View Controller of corresponding song image
-        imageVC = storyboard?.instantiateViewController(identifier: "ImageViewController") as! ImageViewController // bad but i dont remember why
+        imageVC = storyboard?.instantiateViewController(identifier: "ImageViewController") as! ImageViewController // bad?
         
         // Send information of cell clicked on (full image from URL)
         if let fullImage = song.image {
@@ -137,6 +144,18 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         
         present(imageVC, animated: true, completion: nil)
     }
+    
+    // Controls ABC sidebar, getting keys from dictionary
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return orderedSongs.keys.sorted(by: {$0 < $1})
+    }
+    
+//TODO
+//    // Controls headers for each section of table view
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        let keys = orderedSongs.keys.sorted(by: {$0 < $1})
+//        return keys[section]  // index out of range error?
+//    }
     
 }
 

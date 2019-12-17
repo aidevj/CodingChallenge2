@@ -57,7 +57,8 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout, UICollec
     
     // Controls Number of items in section
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        3
+        //return songs.count
+        return 5
     }
     
     // Controls each cell
