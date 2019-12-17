@@ -32,6 +32,22 @@ class CollectionViewController: UIViewController {
     weak var delegate: CollectionDelegate?
     var imageVC: ImageViewController!
     
+    // Array of ordered songs with observer
+    var orderedSongs: [String: [Song]] = [:] {
+        didSet {
+            DispatchQueue.main.async{
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
+    // Hold array of songs
+    var songs = [Song]() {
+        didSet {
+            //orderedSongs = order(songs)   //TODO: Need to implement and call orderbyAlbum()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,15 +56,28 @@ class CollectionViewController: UIViewController {
     
     //MARK: Functionality
     
+    // Used to get the list of songs using SongManager singleton
+    private func get() {
+        SongManager.shared.getSongs { [weak self] sngs in
+            self?.songs = sngs
+            print("Song count (collection view): \(sngs.count)")
+        }
+    }
+    
+    // To be called in viewDidLoad() - sets up loaded songs on Table View
     private func setupCollection() {
-        //TODO
+        get()
+        
+        // Register XIB Cell View to collection view
+        //collectionView.register(UINib(nibName: "CollectionCell", bundle: Bundle.main), forCellReuseIdentifier: "CollectionCell")
     }
     
     //MARK: Sort
     
     private func orderByAlbum() {
-        
+        //TODO
     }
+    
 
 }
 
@@ -62,7 +91,7 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout, UICollec
     // Controls Number of items in section
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //TODO: return albums.count
-        return 20
+        return songs.count
     }
     
     // Controls each cell
