@@ -112,10 +112,25 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         cell.titleLabel.text = "\(song.title)"
         cell.albumIdLabel.text = "Album: \(song.albumId) | Track: \(song.id)"
         
+        
+        // TRY
+//        DispatchQueue.global(qos: .background).async {
+//            guard let url = URL(string:song.thumbnailUrl) else {return}
+//
+//            guard let data = try? Data(contentsOf: url) else {return }
+//
+//            guard let image: UIImage = UIImage(data: data) else {return }
+//
+//            DispatchQueue.main.async {
+//                cell.thumbnail.image = image
+//            }
+//        }
+        
         // Change image to thumbnail from url
-        if let thumbnailImage = song.thumbnailImage {
-            cell.thumbnail.image = thumbnailImage
-        } // else will set thumbnailImage to nil?
+        //if let thumbnailImage = song.thumbnailImage {
+        if song.thumbnailImage != nil {
+            cell.thumbnail.image = song.thumbnailImage
+        } // else will keep thumbnail as default X image
         
         return cell
     }
@@ -133,7 +148,7 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         // Present Image View Controller of corresponding song image
-        imageVC = storyboard?.instantiateViewController(identifier: "ImageViewController") as! ImageViewController // bad?
+        imageVC = (storyboard?.instantiateViewController(identifier: "ImageViewController") as! ImageViewController) // bad WARNING
         
         // Send information of cell clicked on (full image from URL)
         if let fullImage = song.image {
@@ -144,13 +159,14 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         
         present(imageVC, animated: true, completion: nil)
     }
+
+    //TODO: Uncomment when get section headers to work
+//    // Controls ABC sidebar, getting keys from dictionary
+//    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+//        return orderedSongs.keys.sorted(by: {$0 < $1})
+//    }
     
-    // Controls ABC sidebar, getting keys from dictionary
-    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return orderedSongs.keys.sorted(by: {$0 < $1})
-    }
-    
-//TODO
+    //TODO: fix
 //    // Controls headers for each section of table view
 //    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 //        let keys = orderedSongs.keys.sorted(by: {$0 < $1})

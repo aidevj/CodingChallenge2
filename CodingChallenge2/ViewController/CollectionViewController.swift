@@ -16,6 +16,9 @@ protocol CollectionDelegate: class {
 
 class CollectionViewController: UIViewController {
 
+//    @IBOutlet weak var albumLabel: UILabel!        // error
+//    @IBOutlet weak var albumImage: UIImageView!    // error
+    
     @IBOutlet weak var collectionView: UICollectionView!
 //        = {
 //        let layout = UICollectionViewFlowLayout()
@@ -38,12 +41,13 @@ class CollectionViewController: UIViewController {
     //MARK: Functionality
     
     private func setupCollection() {
-        // adds the collection view programatically to the view controller
-        //view.addSubview(collectionView)
+        //TODO
+    }
+    
+    //MARK: Sort
+    
+    private func orderByAlbum() {
         
-        // set delegate and dataSource connections
-        //collectionView.delegate = self
-        //collectionView.dataSource = self
     }
 
 }
@@ -52,23 +56,23 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout, UICollec
     
     // Controls Height and width of each item
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.width/2.5)
+        return CGSize(width: 175, height: 200)  //TODO: get proper scale, dont hardcode for final
     }
     
     // Controls Number of items in section
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //return songs.count
-        return 5
+        //TODO: return albums.count
+        return 20
     }
     
     // Controls each cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionCell", for: indexPath)
         
-        cell.backgroundColor = .red
-        
         return cell
     }
+    
+    //TODO: Organize by album number
     
     
 }

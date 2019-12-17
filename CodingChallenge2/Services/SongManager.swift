@@ -45,31 +45,55 @@ final class SongManager {
                         let albumId = dict["albumId"] as? Int,
                         let id = dict["id"] as? Int else { continue }
                     
-                    let thumbnailConvert = URL(string: thumbnailUrl)  // maybe do this in extension of Song init??
-                    var thumbnailImage: UIImage?
-                    
-                    let imageConvert = URL(string: imageUrl)
-                    var image: UIImage?
+//                    let thumbnailConvert = URL(string: thumbnailUrl)  // maybe do this in extension of Song init??
+                    var thumbnailImage: UIImage?    // UIImage for thumbnail to be converted from URL
+//
+//                    let imageConvert = URL(string: imageUrl)
+                    var image: UIImage?             // UIImage for full photo to be converted from URL
                     
                     // Get thumbnail image from URL
-                    let thumbTask = URLSession.shared.dataTask(with: thumbnailConvert!) { data, response, error in
-                        guard let data = data else { return }
+//                    let thumbTask = URLSession.shared.dataTask(with: thumbnailConvert!) { data, response, error in
+//                        guard let data = data else { return }
+//
+//                        DispatchQueue.main.async() {
+//                            thumbnailImage = UIImage(data: data)
+//                        }
+//                    }
+//                    thumbTask.resume()  //TODO FIX: only returning nil
+//
+//                    let imageTask = URLSession.shared.dataTask(with: imageConvert!) { data, response, error in
+//                        guard let data = data else { return }
+//
+//                        DispatchQueue.main.async() {
+//                            image = UIImage(data: data)
+//                        }
+//                    }
+//                    imageTask.resume()  //TODO FIX: only returning nil
+                    
+                    // TRY 2 - still no work
+                    DispatchQueue.global(qos: .background).async {
+                        guard let url = URL(string:thumbnailUrl) else {return}
                         
-                        DispatchQueue.main.async() {
-                            thumbnailImage = UIImage(data: data)
+                        guard let data = try? Data(contentsOf: url) else {return }
+
+                        guard let img: UIImage = UIImage(data: data) else {return }
+                        
+                        DispatchQueue.main.async {
+                             thumbnailImage = img
                         }
                     }
-                    thumbTask.resume()  //TODO FIX: only returning nil
                     
-                    let imageTask = URLSession.shared.dataTask(with: imageConvert!) { data, response, error in
-                        guard let data = data else { return }
+                    DispatchQueue.global(qos: .background).async {
+                        guard let url = URL(string:imageUrl) else {return}
                         
-                        DispatchQueue.main.async() {
-                            image = UIImage(data: data)
+                        guard let data = try? Data(contentsOf: url) else {return }
+
+                        guard let img: UIImage = UIImage(data: data) else {return }
+                        
+                        DispatchQueue.main.async {
+                             image = img
                         }
                     }
-                    imageTask.resume()  //TODO FIX: only returning nil
-                    
                     
                     // init song
                     let song = Song(title: title, imageUrl: imageUrl, thumbnailUrl: thumbnailUrl, albumId: albumId, id: id, thumbnailImage: thumbnailImage, image: image)
