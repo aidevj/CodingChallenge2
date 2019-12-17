@@ -14,9 +14,6 @@ class ImageViewController: UIViewController {
 
     @IBOutlet weak var fullImage: UIImageView!
     
-    // Image to recieve from the delegate
-    var receivedImage: UIImage?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -29,5 +26,8 @@ extension ImageViewController: ListDelegate {
     }
 }
 
-//TODO: conform to protocol for delegate from collection view as well (when I make it exist)
-
+extension CollectionViewController: CollectionDelegate {
+    func passInformation(image: UIImage) {
+        //fullImage.image = image
+    }
+}

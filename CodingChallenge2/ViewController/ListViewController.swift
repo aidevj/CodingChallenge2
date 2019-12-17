@@ -24,13 +24,19 @@ class ListViewController: UIViewController {
     weak var delegate: ListDelegate?
     var imageVC: ImageViewController!
     
+    // Array of ordered songs
+    var orderedSongs: [String: [Song]] = [:] { // Add an observer
+        didSet {
+            DispatchQueue.main.async{
+                self.listTableView.reloadData()
+            }
+        }
+    }
+    
     // Hold array of songs
     var songs = [Song]() {
         didSet {
-            //orderedSongs = order(songs)   //TODO: set ordered cities
-            DispatchQueue.main.async {
-                self.listTableView.reloadData()
-            }
+            orderedSongs = order(songs)   // set ordered cities
         }
     }
     
@@ -62,6 +68,23 @@ class ListViewController: UIViewController {
         listTableView.tableFooterView = UIView(frame: .zero)
     }
     
+    //MARK: Sorting
+    
+    // Sort array of songs into ABC order by title
+    private func order(_ songs: [Song]) -> [String: [Song]] {
+        
+        var songsDict = Dictionary(grouping: songs, by: {$0.title.first!.uppercased()})
+        
+        // loop through songs dictionary, sort the song array for each key into ABC order
+        for (key, value) in songsDict {
+            songsDict[key] = value.sorted(by: { (songOne, songTwo) -> Bool in
+                songOne.title < songTwo.title
+            })
+        }
+        
+        return songsDict
+    }
+
 }
 
 // extension to handle table view elements
